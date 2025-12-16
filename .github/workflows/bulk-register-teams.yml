@@ -1,0 +1,39 @@
+name: Bulk Register Hackathon Teams
+
+on:
+  workflow_dispatch:
+    inputs:
+      excel_path:
+        description: "Path to Excel file"
+        required: true
+        default: "inputs/team_registration.xlsx"
+
+jobs:
+  register:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install requests openpyxl
+
+      - name: Run team registration
+        env:
+          GITHUB_TOKEN: ${{ secrets.HTS_2_0_HACKATHON }}
+        run: |
+          python scripts/register_teams.py \
+            --excel "${{ github.event.inputs.excel_path }}"
+
+      - name: Commit metadata
+        run: |
+          git config user.name "hackathon-bot"
+          git config user.email "bot@hackathon.org"
+          git add data/teams.json config/hackathonConfig.json
+          git commit -m "chore: sync team registration" || echo "No changes"
+          git push
