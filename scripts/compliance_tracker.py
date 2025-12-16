@@ -87,6 +87,7 @@ for repo in REPOS:
 
     windows_covered = set()
     valid_commit_count = 0
+    last_commit_time = None
 
     for c in commits:
         msg = c["commit"]["message"]
@@ -103,6 +104,8 @@ for repo in REPOS:
         if window:
             windows_covered.add(window)
             valid_commit_count += 1
+            last_commit_time = commit_time
+
 
     total_windows = total_windows_elapsed()
     missed_windows = sorted(
@@ -119,8 +122,12 @@ for repo in REPOS:
         "windows_covered": sorted(windows_covered),
         "missed_windows": missed_windows,
         "total_windows": total_windows,
-        "compliance_percent": compliance
+        "compliance_percent": compliance,
+        "last_valid_commit_utc": (
+            last_commit_time.isoformat() if last_commit_time else None
+        )
     }
+
 
 # -----------------------------
 # SAVE OUTPUT
