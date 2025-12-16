@@ -5,7 +5,7 @@ async function loadJSON(path) {
 
 /* LEADERBOARD */
 async function renderLeaderboard() {
-  const res = await fetch("../leaderboard.md");
+  const res = await fetch("data/leaderboard.md");
   const text = await res.text();
 
   const rows = text
@@ -43,7 +43,7 @@ async function renderLeaderboard() {
 
 /* PENALTIES + SUMMARY */
 async function renderPenaltiesAndStats() {
-  const penalties = await loadJSON("../stats/penalties.json");
+  const penalties = await loadJSON("data/penalties.json");
 
   let html = `
     <table>
