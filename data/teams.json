@@ -6,9 +6,9 @@
       "karthikraja2345",
       "lokesh-1511"
     ],
-    "problem_id": null,
-    "problem_title": null,
-    "access": "pull"
+    "problem_id": "L01",
+    "problem_title": "RAG BASED MODEL",
+    "access": "push"
   },
   "T002": {
     "team_name": "ABC",
@@ -17,9 +17,9 @@
       "kishorm28",
       "inba-m06"
     ],
-    "problem_id": null,
-    "problem_title": null,
-    "access": "pull"
+    "problem_id": "L02",
+    "problem_title": "ADVANCED LLM",
+    "access": "push"
   },
   "T003": {
     "team_name": "DE",
@@ -28,8 +28,8 @@
       "ukarthik2",
       "yuvan0907"
     ],
-    "problem_id": null,
-    "problem_title": null,
-    "access": "pull"
+    "problem_id": "L03",
+    "problem_title": "ADVANCED NLP",
+    "access": "push"
   }
 }
