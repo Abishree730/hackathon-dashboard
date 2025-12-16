@@ -3,6 +3,7 @@ async function loadJSON(path) {
   return res.json();
 }
 
+/* LEADERBOARD */
 async function renderLeaderboard() {
   const res = await fetch("../leaderboard.md");
   const text = await res.text();
@@ -40,8 +41,9 @@ async function renderLeaderboard() {
   document.getElementById("leaderboard").innerHTML = html;
 }
 
-async function renderPenalties() {
-  const data = await loadJSON("../stats/penalties.json");
+/* PENALTIES + SUMMARY */
+async function renderPenaltiesAndStats() {
+  const penalties = await loadJSON("../stats/penalties.json");
 
   let html = `
     <table>
@@ -52,22 +54,36 @@ async function renderPenalties() {
       </tr>
   `;
 
-  Object.entries(data).forEach(([repo, info]) => {
+  let total = 0, ok = 0, warning = 0, review = 0;
+
+  Object.entries(penalties).forEach(([repo, data]) => {
     const team = repo.split("-")[0].toUpperCase();
-    const cls = info.penalty_level.toLowerCase();
+    const level = data.penalty_level.toLowerCase();
+
+    total++;
+    if (level === "ok") ok++;
+    else if (level === "warning") warning++;
+    else review++;
 
     html += `
       <tr>
         <td>${team}</td>
-        <td class="${cls}">${info.penalty_level}</td>
-        <td>${info.missed_windows}</td>
+        <td><span class="badge ${level}">${data.penalty_level}</span></td>
+        <td>${data.missed_windows}</td>
       </tr>
     `;
   });
 
   html += "</table>";
   document.getElementById("penalties").innerHTML = html;
+
+  /* SUMMARY */
+  document.getElementById("totalTeams").textContent = total;
+  document.getElementById("compliantTeams").textContent = ok;
+  document.getElementById("warningTeams").textContent = warning;
+  document.getElementById("reviewTeams").textContent = review;
 }
 
+/* INIT */
 renderLeaderboard();
-renderPenalties();
+renderPenaltiesAndStats();
