@@ -1,17 +1,51 @@
+/* -----------------------------
+   UTILS
+----------------------------- */
+
 async function loadJSON(path) {
-  const res = await fetch(path);
+  const res = await fetch(`${path}?ts=${Date.now()}`);
+  if (!res.ok) throw new Error(`Failed to load ${path}`);
   return res.json();
 }
 
-/* LEADERBOARD */
-async function renderLeaderboard() {
-  const res = await fetch(`data/leaderboard.md?ts=${Date.now()}`);
-  const text = await res.text();
+function formatTimeAMPM(utcTimestamp) {
+  if (!utcTimestamp) return "-";
 
-  const rows = text
-    .split("\n")
-    .filter(l => l.startsWith("|") && !l.includes("----"))
-    .slice(1);
+  const date = new Date(utcTimestamp);
+
+  return date.toLocaleTimeString("en-IN", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+    timeZone: "Asia/Kolkata"
+  });
+}
+
+/* -----------------------------
+   LEADERBOARD (FROM JSON)
+----------------------------- */
+
+async function renderLeaderboard() {
+  const data = await loadJSON("data/compliance.json");
+
+  // Convert object → array
+  const rows = Object.entries(data).map(([repo, stats]) => {
+    const team = repo.split("-")[0].toUpperCase();
+
+    return {
+      team,
+      compliance: stats.compliance_percent,
+      commits: stats.total_valid_commits,
+      missed: stats.missed_windows.length,
+      lastCommit: stats.last_valid_commit_utc
+    };
+  });
+
+  // Sort: compliance desc → commits desc
+  rows.sort((a, b) => {
+    if (b.compliance !== a.compliance) return b.compliance - a.compliance;
+    return b.commits - a.commits;
+  });
 
   let html = `
     <table>
@@ -20,19 +54,20 @@ async function renderLeaderboard() {
         <th>Team</th>
         <th>Compliance %</th>
         <th>Valid Commits</th>
+        <th>Last Commit</th>
         <th>Missed Windows</th>
       </tr>
   `;
 
-  rows.forEach(r => {
-    const c = r.split("|").map(x => x.trim());
+  rows.forEach((r, i) => {
     html += `
       <tr>
-        <td>${c[1]}</td>
-        <td>${c[2]}</td>
-        <td>${c[3]}</td>
-        <td>${c[4]}</td>
-        <td>${c[5]}</td>
+        <td>${i + 1}</td>
+        <td>${r.team}</td>
+        <td>${r.compliance.toFixed(1)}</td>
+        <td>${r.commits}</td>
+        <td>${formatTimeAMPM(r.lastCommit)}</td>
+        <td>${r.missed}</td>
       </tr>
     `;
   });
@@ -41,9 +76,12 @@ async function renderLeaderboard() {
   document.getElementById("leaderboard").innerHTML = html;
 }
 
-/* PENALTIES + SUMMARY */
+/* -----------------------------
+   PENALTIES + SUMMARY
+----------------------------- */
+
 async function renderPenaltiesAndStats() {
-  const penalties = await loadJSON(`data/penalties.json?ts=${Date.now()}`);
+  const penalties = await loadJSON("data/penalties.json");
 
   let html = `
     <table>
@@ -77,13 +115,16 @@ async function renderPenaltiesAndStats() {
   html += "</table>";
   document.getElementById("penalties").innerHTML = html;
 
-  /* SUMMARY */
+  // Summary cards
   document.getElementById("totalTeams").textContent = total;
   document.getElementById("compliantTeams").textContent = ok;
   document.getElementById("warningTeams").textContent = warning;
   document.getElementById("reviewTeams").textContent = review;
 }
 
-/* INIT */
+/* -----------------------------
+   INIT
+----------------------------- */
+
 renderLeaderboard();
 renderPenaltiesAndStats();
