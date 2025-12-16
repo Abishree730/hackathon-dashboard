@@ -1,0 +1,35 @@
+{
+  "T001": {
+    "team_name": "XY",
+    "repo": "xy",
+    "members": [
+      "karthikraja2345",
+      "lokesh-1511"
+    ],
+    "problem_id": null,
+    "problem_title": null,
+    "access": "pull"
+  },
+  "T002": {
+    "team_name": "ABC",
+    "repo": "abc",
+    "members": [
+      "kishorm28",
+      "inba-m06"
+    ],
+    "problem_id": null,
+    "problem_title": null,
+    "access": "pull"
+  },
+  "T003": {
+    "team_name": "DE",
+    "repo": "de",
+    "members": [
+      "ukarthik2",
+      "yuvan0907"
+    ],
+    "problem_id": null,
+    "problem_title": null,
+    "access": "pull"
+  }
+}
