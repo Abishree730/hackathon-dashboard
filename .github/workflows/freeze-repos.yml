@@ -1,0 +1,25 @@
+name: Freeze Team Repositories
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 21 16 12 *"  # hackathon end UTC
+
+jobs:
+  freeze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install requests
+
+      - name: Freeze repos
+        env:
+          GITHUB_TOKEN: ${{ secrets.DASHBOARD_PUSH_TOKEN }}
+        run: python scripts/freeze_repos.py
