@@ -1,3 +1,5 @@
-# Live Hackathon Leaderboard
+# 🏆 Hackathon Live Leaderboard
 
-(Updates every 3 hours)
+| Rank | Team | Compliance % | Valid Commits | Missed Windows |
+|----|----|----|----|----|
+| 1 | T001 | 100.0 | 1 | 0 |
