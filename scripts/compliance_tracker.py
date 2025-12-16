@@ -27,8 +27,18 @@ HACKATHON_START = datetime.strptime(
 
 TEAM_PATTERN = re.compile(r"\[T\d{3}\]")
 
+# -----------------------------
+# AUTH
+# -----------------------------
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
-HEADERS = {"Authorization": f"token {GITHUB_TOKEN}"}
+
+if not GITHUB_TOKEN:
+    raise RuntimeError("GITHUB_TOKEN environment variable is not set")
+
+HEADERS = {
+    "Authorization": f"token {GITHUB_TOKEN}",
+    "Accept": "application/vnd.github+json"
+}
 
 # -----------------------------
 # HELPERS
@@ -36,7 +46,7 @@ HEADERS = {"Authorization": f"token {GITHUB_TOKEN}"}
 def parse_time(ts: str) -> datetime:
     return datetime.strptime(ts, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
 
-def get_window_number(commit_time: datetime) -> int:
+def get_window_number(commit_time: datetime) -> int | None:
     delta_hours = (commit_time - HACKATHON_START).total_seconds() / 3600
     if delta_hours < 0:
         return None
@@ -47,15 +57,32 @@ def total_windows_elapsed() -> int:
     elapsed_hours = (now - HACKATHON_START).total_seconds() / 3600
     return max(0, math.ceil(elapsed_hours / WINDOW_HOURS))
 
+def fetch_commits(repo: str):
+    url = f"https://api.github.com/repos/{ORG}/{repo}/commits"
+    response = requests.get(url, headers=HEADERS)
+
+    if response.status_code != 200:
+        raise RuntimeError(
+            f"GitHub API error for repo '{repo}': "
+            f"{response.status_code} {response.text}"
+        )
+
+    data = response.json()
+
+    if not isinstance(data, list):
+        raise RuntimeError(
+            f"Unexpected API response for repo '{repo}': {data}"
+        )
+
+    return data
+
 # -----------------------------
 # MAIN LOGIC
 # -----------------------------
 results = {}
 
 for repo in REPOS:
-    url = f"https://api.github.com/repos/{ORG}/{repo}/commits"
-    response = requests.get(url, headers=HEADERS)
-    commits = response.json()
+    commits = fetch_commits(repo)
 
     windows_covered = set()
     valid_commit_count = 0
@@ -88,7 +115,7 @@ for repo in REPOS:
 
     results[repo] = {
         "total_valid_commits": valid_commit_count,
-        "windows_covered": sorted(list(windows_covered)),
+        "windows_covered": sorted(windows_covered),
         "missed_windows": missed_windows,
         "total_windows": total_windows,
         "compliance_percent": compliance
