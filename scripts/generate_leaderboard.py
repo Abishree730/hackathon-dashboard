@@ -2,8 +2,9 @@ import json
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-STATS_FILE = BASE_DIR / "stats" / "compliance.json"
-LEADERBOARD_FILE = BASE_DIR / "leaderboard.md"
+STATS_FILE = BASE_DIR /  "docs" / "data" / "compliance.json"
+LEADERBOARD_FILE = BASE_DIR / "docs" / "data" / "leaderboard.md"
+
 
 with open(STATS_FILE) as f:
     data = json.load(f)
