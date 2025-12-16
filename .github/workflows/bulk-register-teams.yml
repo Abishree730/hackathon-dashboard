@@ -36,4 +36,4 @@ jobs:
           git config user.email "bot@hackathon.org"
           git add data/teams.json config/hackathonConfig.json
           git commit -m "chore: sync teams from excel" || echo "No changes"
-          git push
+          git push https://x-access-token:${{ secrets.DASHBOARD_PUSH_TOKEN }}@github.com/${{ github.repository }}.git
