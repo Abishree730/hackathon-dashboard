@@ -104,8 +104,9 @@ for repo in REPOS:
         if window:
             windows_covered.add(window)
             valid_commit_count += 1
-            last_commit_time = commit_time
-
+        
+            if not last_commit_time or commit_time > last_commit_time:
+                last_commit_time = commit_time
 
     total_windows = total_windows_elapsed()
     missed_windows = sorted(
