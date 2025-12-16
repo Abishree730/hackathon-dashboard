@@ -65,8 +65,9 @@ def fetch_commits(repo: str):
     url = f"https://api.github.com/repos/{ORG}/{repo}/commits"
     response = requests.get(url, headers=HEADERS)
 
-    if response.status_code == 404:
-        # Repo not yet created or inaccessible → treat as no activity
+    if response.status_code in (404, 409):
+        # 404 → repo missing
+        # 409 → repo exists but empty
         return []
 
     if response.status_code != 200:
@@ -77,6 +78,7 @@ def fetch_commits(repo: str):
 
     data = response.json()
     return data if isinstance(data, list) else []
+
 
 
 # -----------------------------
