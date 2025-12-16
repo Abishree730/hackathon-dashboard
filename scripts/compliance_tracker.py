@@ -11,7 +11,8 @@ import os
 # -----------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 CONFIG_FILE = BASE_DIR / "config" / "hackathonConfig.json"
-OUTPUT_FILE = BASE_DIR / "stats" / "compliance.json"
+OUTPUT_FILE = BASE_DIR / "docs" / "data" / "compliance.json"
+
 
 with open(CONFIG_FILE) as f:
     CONFIG = json.load(f)
@@ -124,7 +125,7 @@ for repo in REPOS:
 # -----------------------------
 # SAVE OUTPUT
 # -----------------------------
-OUTPUT_FILE.parent.mkdir(exist_ok=True)
+OUTPUT_FILE.parent.mkdir(parents=True,exist_ok=True)
 
 with open(OUTPUT_FILE, "w") as f:
     json.dump(results, f, indent=2)
