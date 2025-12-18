@@ -1,7 +1,7 @@
 {
   "T001": {
-    "team_name": "XY",
-    "repo": "xy",
+    "team_name": "Hackathians",
+    "repo": "hackathians",
     "total_valid_commits": 0,
     "windows_covered": [],
     "missed_windows": [
@@ -25,8 +25,8 @@
     "last_valid_commit_time": "-"
   },
   "T002": {
-    "team_name": "ABC",
-    "repo": "abc",
+    "team_name": "NeuroQuad",
+    "repo": "neuroquad",
     "total_valid_commits": 0,
     "windows_covered": [],
     "missed_windows": [
@@ -50,8 +50,8 @@
     "last_valid_commit_time": "-"
   },
   "T003": {
-    "team_name": "DE",
-    "repo": "de",
+    "team_name": "GRYFFINDERS",
+    "repo": "gryffinders",
     "total_valid_commits": 0,
     "windows_covered": [],
     "missed_windows": [
@@ -75,8 +75,8 @@
     "last_valid_commit_time": "-"
   },
   "T004": {
-    "team_name": "FGH",
-    "repo": "fgh",
+    "team_name": "RavenClaw",
+    "repo": "ravenclaw",
     "total_valid_commits": 0,
     "windows_covered": [],
     "missed_windows": [
@@ -100,8 +100,8 @@
     "last_valid_commit_time": "-"
   },
   "T005": {
-    "team_name": "HJI",
-    "repo": "hji",
+    "team_name": "SLyTHerin",
+    "repo": "slytherin",
     "total_valid_commits": 0,
     "windows_covered": [],
     "missed_windows": [
