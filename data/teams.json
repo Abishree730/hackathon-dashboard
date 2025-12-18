@@ -1,7 +1,7 @@
 {
   "T001": {
-    "team_name": "XY",
-    "repo": "xy",
+    "team_name": "Hackathians",
+    "repo": "hackathians",
     "members": [
       "inba-m06",
       "keerthanagb14",
@@ -12,8 +12,8 @@
     "access": "push"
   },
   "T002": {
-    "team_name": "ABC",
-    "repo": "abc",
+    "team_name": "NeuroQuad",
+    "repo": "neuroquad",
     "members": [
       "gokul-k-19",
       "sriram-2705",
@@ -24,8 +24,8 @@
     "access": "push"
   },
   "T003": {
-    "team_name": "DE",
-    "repo": "de",
+    "team_name": "GRYFFINDERS",
+    "repo": "gryffinders",
     "members": [
       "jayasuriya-engineer",
       "thulasi-ravichandran",
@@ -36,8 +36,8 @@
     "access": "push"
   },
   "T004": {
-    "team_name": "FGH",
-    "repo": "fgh",
+    "team_name": "RavenClaw",
+    "repo": "ravenclaw",
     "members": [
       "abishree730",
       "subhasinipaulpandi23",
@@ -48,8 +48,8 @@
     "access": "push"
   },
   "T005": {
-    "team_name": "HJI",
-    "repo": "hji",
+    "team_name": "SLyTHerin",
+    "repo": "slytherin",
     "members": [
       "rakeshmm05",
       "vethavalligm"
